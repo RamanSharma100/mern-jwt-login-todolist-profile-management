@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 const Todo = require("../models/Todo");
 const authCheck = require("../middlewares/authCheck");
@@ -8,7 +9,7 @@ const authCheck = require("../middlewares/authCheck");
 router.post("/add", authCheck, async (req, res) => {
   const { title, done, user } = req.body;
 
-  if (!title || !done || !user) {
+  if (!title || !user) {
     return res
       .status(400)
       .json({ success: false, msg: "Please fill in all fields!!" });
@@ -22,7 +23,7 @@ router.post("/add", authCheck, async (req, res) => {
 
   try {
     const savedTodo = await todo.save();
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       todo: savedTodo,
     });
@@ -37,7 +38,7 @@ router.get("/all/:userId", authCheck, async (req, res) => {
   const { userId } = req.params;
   try {
     const todos = await Todo.find({ user: userId });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       todos,
     });
@@ -59,7 +60,7 @@ router.post("/done", authCheck, async (req, res) => {
 
   // check todo present
 
-  const todo = await Todo.findOne({ _id: id });
+  const todo = await Todo.findOne({ _id: mongoose.Types.ObjectId(id) });
 
   if (!todo) {
     return res.status(404).json({ success: false, msg: "Todo not found!!" });
@@ -67,14 +68,14 @@ router.post("/done", authCheck, async (req, res) => {
 
   try {
     await Todo.updateOne(
-      { _id: id },
+      { _id: mongoose.Types.ObjectId(id) },
       {
         $set: {
           done: true,
         },
       }
     );
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
     });
   } catch (err) {
@@ -103,7 +104,7 @@ router.post("/remove", authCheck, async (req, res) => {
 
   try {
     await Todo.deleteOne({ _id: id });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
     });
   } catch (err) {

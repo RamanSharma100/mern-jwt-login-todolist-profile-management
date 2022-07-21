@@ -25,15 +25,19 @@ const setLoading = (payload) => ({
 });
 
 const setTodos = (payload) => ({
-  type: types.SET_TODOS,
+  type: types.ADD_TODOS,
   payload,
 });
 
 // action creators
 
-export const postTodo = (todoData) => (dispatch) => {
+export const postTodo = (todoData, token) => (dispatch) => {
   axios
-    .post(`${import.meta.env.VITE_Backend_EndPoint}/todos/add`, todoData)
+    .post(`${import.meta.env.VITE_Backend_EndPoint}/api/todos/add`, todoData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       toast.success("Todo added successfully!");
       dispatch(addTodo(res.data.todo));
@@ -43,11 +47,19 @@ export const postTodo = (todoData) => (dispatch) => {
     });
 };
 
-export const deleteTodo = (todoId) => (dispatch) => {
+export const deleteTodo = (todoId, token) => (dispatch) => {
   axios
-    .post(`${import.meta.env.VITE_Backend_EndPoint}/todos/remove`, {
-      id: todoId,
-    })
+    .post(
+      `${import.meta.env.VITE_Backend_EndPoint}/api/todos/remove`,
+      {
+        id: todoId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
     .then((res) => {
       toast.success("Todo removed successfully!");
       dispatch(removeTodo(todoId));
@@ -57,11 +69,19 @@ export const deleteTodo = (todoId) => (dispatch) => {
     });
 };
 
-export const updateTodo = (todoId) => (dispatch) => {
+export const updateTodo = (todoId, token) => (dispatch) => {
   axios
-    .post(`${import.meta.env.VITE_Backend_EndPoint}/todos/done`, {
-      id: todoId,
-    })
+    .post(
+      `${import.meta.env.VITE_Backend_EndPoint}/api/todos/done`,
+      {
+        id: todoId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
     .then((res) => {
       toast.success("Todo updated successfully!");
       dispatch(doneTodo(todoId));
@@ -71,20 +91,20 @@ export const updateTodo = (todoId) => (dispatch) => {
     });
 };
 
-export const getTodos = (userId) => (dispatch) => {
+export const getTodos = (userId, token) => (dispatch) => {
   dispatch(setLoading(true));
   axios
-    .get(`${import.meta.env.VITE_Backend_EndPoint}/todos/all/${userId}`)
+    .get(`${import.meta.env.VITE_Backend_EndPoint}/api/todos/all/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       dispatch(setTodos(res.data.todos));
       dispatch(setLoading(false));
     })
     .catch((err) => {
-      toast.error(err.response.data.msg);
+      toast.error(err.response?.data.msg);
       dispatch(setLoading(false));
     });
-};
-
-export const setTheLoading = (isLoading) => (dispatch) => {
-  dispatch(setLoading(isLoading));
 };

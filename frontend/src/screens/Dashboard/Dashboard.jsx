@@ -11,12 +11,15 @@ import {
 import DashboardNavbarComponent from "../../components/NavbarComponent/DashboardNavbarComponent";
 import TodoList from "../../components/TodoList/TodoList";
 import Profile from "../Profile/Profile";
+import { getTodos } from "../../redux/actionCreators/todoListActionCreator";
 
 const Dashboard = () => {
-  const { token, isAuthenticated } = useSelector(
+  const { token, isAuthenticated, isLoading, userId } = useSelector(
     (state) => ({
       token: state.auth.token,
       isAuthenticated: state.auth.isAuthenticated,
+      isLoading: state.todos.isLoading,
+      userId: state.auth.user.id,
     }),
     shallowEqual
   );
@@ -43,6 +46,9 @@ const Dashboard = () => {
 
     if (!isAuthenticated) {
       dispatch(loginUserWithToken(JSON.parse(getUser)));
+      dispatch(
+        getTodos(JSON.parse(getUser).user.id, JSON.parse(getUser).token)
+      );
     }
   }, [window.location.pathname]);
 

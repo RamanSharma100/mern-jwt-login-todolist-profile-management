@@ -12,7 +12,7 @@ const todoListReducer = (state = initialState, { type, payload }) => {
         ...state,
         isLoading: payload,
       };
-    case types.SET_TODOS:
+    case types.ADD_TODOS:
       return {
         ...state,
         todos: payload,
@@ -25,13 +25,13 @@ const todoListReducer = (state = initialState, { type, payload }) => {
     case types.REMOVE_TODO:
       return {
         ...state,
-        todos: state.todos.filter((todo) => todo.id !== payload),
+        todos: state.todos.filter((todo) => todo._id !== payload),
       };
     case types.DONE_TODO:
       return {
         ...state,
         todos: state.todos.map((todo) => {
-          if (todo.id === payload) {
+          if (todo._id === payload) {
             todo.done = true;
           }
           return todo;
