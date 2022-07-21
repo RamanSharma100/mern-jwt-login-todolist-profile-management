@@ -13,6 +13,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
 
+import "./DashboardNavbarComponent.css";
+
 const DashboardNavbarComponent = () => {
   const [showBasic, setShowBasic] = useState(false);
 
@@ -52,7 +54,10 @@ const DashboardNavbarComponent = () => {
               <MDBNavbarItem>
                 <p className="text-white mx-2 my-0 fw-bold">
                   Welcome,{" "}
-                  <Link to="/dashboard/profile" className="text-warning ">
+                  <Link
+                    to="/dashboard/profile"
+                    className="profile-link text-warning "
+                  >
                     {user.name}
                   </Link>
                 </p>

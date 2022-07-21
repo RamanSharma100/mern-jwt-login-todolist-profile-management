@@ -3,13 +3,14 @@ import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-
-import DashboardNavbarComponent from "../../components/NavbarComponent/DashboardNavbarComponent";
-import TodoList from "../../components/TodoList/TodoList";
 import {
   loginUserWithToken,
   signOutUser,
 } from "../../redux/actionCreators/authActionCreator";
+
+import DashboardNavbarComponent from "../../components/NavbarComponent/DashboardNavbarComponent";
+import TodoList from "../../components/TodoList/TodoList";
+import Profile from "../Profile/Profile";
 
 const Dashboard = () => {
   const { token, isAuthenticated } = useSelector(
@@ -51,6 +52,7 @@ const Dashboard = () => {
       <MDBCol md="12">
         <Routes>
           <Route index path="" element={<TodoList />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </MDBCol>
     </MDBRow>

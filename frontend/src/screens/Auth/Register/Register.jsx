@@ -66,8 +66,8 @@ const Register = () => {
         <FormComponent
           fields={[
             {
-              id: "name",
-              label: "Name",
+              id: "username",
+              label: "Username",
               type: "text",
               value: name,
               onChange: setName,
