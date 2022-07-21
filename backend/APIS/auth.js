@@ -55,11 +55,10 @@ router.post("/login", async (req, res) => {
 
         res.status(200).json({
           success: true,
-          userData: {
+          user: {
             email: oldUser.email,
             name: oldUser.name,
             id: oldUser._id,
-            favoriteMovies: oldUser.favoriteMovies,
           },
           token,
         });
