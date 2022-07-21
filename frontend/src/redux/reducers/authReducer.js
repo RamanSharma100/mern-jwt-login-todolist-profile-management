@@ -1,4 +1,5 @@
 import * as types from "../actionTypes/authActionTypes";
+import * as userTypes from "../actionTypes/userProfileActionTypes";
 const initialState = {
   isAuthenticated: false,
   user: {},
@@ -7,6 +8,14 @@ const initialState = {
 
 const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case userTypes.CHANGE_USER_NAME:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          name: payload,
+        },
+      };
     case types.LOGIN_USER:
       return {
         ...state,
