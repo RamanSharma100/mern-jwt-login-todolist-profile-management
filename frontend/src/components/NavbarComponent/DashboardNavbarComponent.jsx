@@ -11,12 +11,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import "./DashboardNavbarComponent.css";
+import { signOutUser } from "../../redux/actionCreators/authActionCreator";
+import { toast } from "react-toastify";
 
 const DashboardNavbarComponent = () => {
   const [showBasic, setShowBasic] = useState(false);
+  const dispatch = useDispatch();
 
   const { isAuthenticted, user } = useSelector(
     (state) => ({
@@ -74,7 +77,16 @@ const DashboardNavbarComponent = () => {
               </MDBBtn>
             </MDBNavbarItem>
             <MDBNavbarItem className="mx-2">
-              <MDBBtn size="sm" color="success" type="button">
+              <MDBBtn
+                size="sm"
+                color="success"
+                type="button"
+                onClick={() => {
+                  dispatch(signOutUser());
+                  toast.success("Logged out successfully");
+                  navigate("/");
+                }}
+              >
                 Logout
               </MDBBtn>
             </MDBNavbarItem>

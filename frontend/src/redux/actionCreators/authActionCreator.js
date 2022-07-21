@@ -41,6 +41,7 @@ export const signInUser = (userData, setSuccess) => (dispatch) => {
 };
 
 export const signOutUser = () => (dispatch) => {
+  localStorage.removeItem("mjtlpmtoken");
   dispatch(logoutUser());
 };
 

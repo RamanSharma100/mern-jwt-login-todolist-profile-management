@@ -11,11 +11,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavbarComponent = () => {
   const [showBasic, setShowBasic] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isAuthenticted, user } = useSelector(
+    (state) => ({
+      isAuthenticted: state.auth.isAuthenticated,
+      user: state.auth.user,
+    }),
+    shallowEqual
+  );
 
   return (
     <MDBNavbar expand="lg" light bgColor="white">
@@ -39,26 +49,68 @@ const NavbarComponent = () => {
             fullWidth={false}
             className="mb-2 d-flex align-items-center me-5 mb-lg-0"
           >
-            <MDBNavbarItem className="mx-2">
-              <MDBBtn
-                size="sm"
-                color="primary"
-                type="button"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </MDBBtn>
-            </MDBNavbarItem>
-            <MDBNavbarItem className="mx-2">
-              <MDBBtn
-                size="sm"
-                color="success"
-                type="button"
-                onClick={() => navigate("/register")}
-              >
-                Register
-              </MDBBtn>
-            </MDBNavbarItem>
+            {isAuthenticted ? (
+              <>
+                <MDBNavbarItem>
+                  <p className="mx-2 my-0 fw-bold">
+                    Welcome,{" "}
+                    <Link
+                      to="/dashboard/profile"
+                      className="profile-link text-warning "
+                    >
+                      {user.name}
+                    </Link>
+                  </p>
+                </MDBNavbarItem>
+                <MDBNavbarItem className="mx-2">
+                  <MDBBtn
+                    size="sm"
+                    color="primary"
+                    type="button"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Dashboard
+                  </MDBBtn>
+                </MDBNavbarItem>
+                <MDBNavbarItem className="mx-2">
+                  <MDBBtn
+                    size="sm"
+                    color="success"
+                    type="button"
+                    onClick={() => {
+                      dispatch(signOutUser());
+                      toast.success("Logged out successfully");
+                      navigate("/");
+                    }}
+                  >
+                    Logout
+                  </MDBBtn>
+                </MDBNavbarItem>
+              </>
+            ) : (
+              <>
+                <MDBNavbarItem className="mx-2">
+                  <MDBBtn
+                    size="sm"
+                    color="primary"
+                    type="button"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </MDBBtn>
+                </MDBNavbarItem>
+                <MDBNavbarItem className="mx-2">
+                  <MDBBtn
+                    size="sm"
+                    color="success"
+                    type="button"
+                    onClick={() => navigate("/register")}
+                  >
+                    Register
+                  </MDBBtn>
+                </MDBNavbarItem>
+              </>
+            )}
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>
