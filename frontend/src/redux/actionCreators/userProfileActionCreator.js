@@ -18,7 +18,7 @@ export const changeUserPassword =
       .post(
         `${import.meta.env.VITE_Backend_EndPoint}/api/user/changePassword`,
         {
-          password,
+          newPassword: password,
           confirmPass: confirmPassword,
           userId,
         },

@@ -12,6 +12,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, shallowEqual, useSelector } from "react-redux";
+import { signOutUser } from "../../redux/actionCreators/authActionCreators";
 
 const NavbarComponent = () => {
   const [showBasic, setShowBasic] = useState(false);
@@ -79,8 +80,7 @@ const NavbarComponent = () => {
                     type="button"
                     onClick={() => {
                       dispatch(signOutUser());
-                      toast.success("Logged out successfully");
-                      navigate("/");
+                      toast.success("Logged out successfully!");
                     }}
                   >
                     Logout
