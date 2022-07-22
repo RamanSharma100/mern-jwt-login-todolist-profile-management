@@ -50,6 +50,13 @@ const Dashboard = () => {
         getTodos(JSON.parse(getUser).user.id, JSON.parse(getUser).token)
       );
     }
+    if (isAuthenticated) {
+      if (isLoading) {
+        dispatch(
+          getTodos(JSON.parse(getUser).user.id, JSON.parse(getUser).token)
+        );
+      }
+    }
   }, [window.location.pathname]);
 
   return (

@@ -27,16 +27,6 @@ const Home = () => {
     const getUser = localStorage.getItem("mjtlpmtoken");
     if (!getUser) {
       dispatch(signOutUser());
-      navigate("/login");
-      return;
-    }
-
-    const decodedToken = jwt_decode(JSON.parse(getUser).token);
-
-    if (decodedToken.exp <= Date.now() / 1000) {
-      toast.error("Login session expired! please login again!");
-      navigate("/login");
-      dispatch(signOutUser());
       return;
     }
 
