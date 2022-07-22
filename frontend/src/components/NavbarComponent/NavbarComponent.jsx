@@ -12,7 +12,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, shallowEqual, useSelector } from "react-redux";
-import { signOutUser } from "../../redux/actionCreators/authActionCreators";
+import { signOutUser } from "../../redux/actionCreators/authActionCreator";
 
 const NavbarComponent = () => {
   const [showBasic, setShowBasic] = useState(false);
